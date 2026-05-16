@@ -89,6 +89,30 @@ export default function Home() {
     setNoPos({ x, y });
   };
 
+  // --- SECRET NOTIFICATION HANDLER ---
+  const handleYesClick = async () => {
+    // 1. Show her the happy ending immediately
+    setIsForgiven(true);
+
+    // 2. Silently send you an email in the background
+    try {
+      await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "80d23151-5032-4d47-8f71-487c31c00ce3", // Replace this with the key from your email!
+          subject: "🚨 BOBO SAID YES! 🚨",
+          from_name: "Vault Bot",
+          message: "Bro, Nirmali just unlocked the vault and clicked YES! Time to text her! ❤️"
+        }),
+      });
+    } catch (error) {
+      console.error("Notification failed, but she still saw the message.", error);
+    }
+  };
   return (
     <div className="min-h-screen bg-stone-50 text-stone-800 font-sans selection:bg-rose-200">
       
@@ -282,7 +306,7 @@ export default function Home() {
                 
                 {/* YES BUTTON */}
                 <button 
-                  onClick={() => setIsForgiven(true)}
+                  onClick={handleYesClick}
                   className="px-8 py-3 rounded-full bg-rose-500 text-white font-bold text-lg hover:bg-rose-600 transition-colors z-10"
                 >
                   Yes
